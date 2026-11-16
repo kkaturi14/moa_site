@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+data/*.db
+data/*.db-journal
+app/static/uploads/*
+!app/static/uploads/.gitkeep
+.git
+.gitignore
+
+# 정답지는 컨테이너에 넣지 않음 (평가 공정성)
+answer_key/

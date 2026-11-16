@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="cats">
+  <a href="/" class="{{ 'active' if not cat else '' }}">전체</a>
+  {% for c in categories %}
+    <a href="/?cat={{ c }}" class="{{ 'active' if cat==c else '' }}">{{ c }}</a>
+  {% endfor %}
+</div>
+<div class="sec-title">{{ cat if cat else '방금 올라온 물건' }}</div>
+<div class="sub">총 {{ products|length }}개의 상품</div>
+<div class="grid">
+  {% for p in products %}
+  <a class="card" href="/product/{{ p['id'] }}">
+    <div class="thumb">📦</div>
+    <div class="body">
+      <div class="ttl">{{ p['title'] }}{% if p['status']=='sold' %}<span class="badge-sold">판매완료</span>{% endif %}</div>
+      <div class="price">{{ "{:,}".format(p['price']) }}원</div>
+      <div class="meta"><span>{{ p['location'] }}</span><span>조회 {{ p['views'] }}</span></div>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,12 @@
+services:
+  moamarket:
+    build: .
+    container_name: moamarket-testbed
+    # 127.0.0.1에만 바인딩 → 외부 네트워크에 노출되지 않음 (교육용 안전장치)
+    ports:
+      - "127.0.0.1:18080:18080"
+    # app 코드/템플릿/CSS를 호스트와 공유 → 수정이 바로 반영됨 (새로고침 또는 자동 리로드).
+    # data는 공유하지 않아 컨테이너 내부에 유지됨(SQLite 안정).
+    volumes:
+      - ./app:/app/app
+    restart: "no"

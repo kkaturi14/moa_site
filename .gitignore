@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+data/*.db
+data/*.db-journal
+app/static/uploads/*
+!app/static/uploads/.gitkeep
+answer_key/

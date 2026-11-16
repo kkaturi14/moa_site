@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}마이페이지 - {{ site_name }}{% endblock %}
+{% block body %}
+<div class="acct-head">
+  <div class="acct-ava">{{ (me['nickname'] or '?')[0] }}</div>
+  <div>
+    <div style="font-size:20px;font-weight:800">{{ me['nickname']|safe }}</div>
+    <div class="sub">{{ me['email'] }} · 가입일 {{ me['created_at'][:10] }}</div>
+    <div class="sub">{{ me['bio']|safe }}</div>
+  </div>
+</div>
+<div class="acct-tabs">
+  <a class="active" href="/account">내 정보</a>
+  <a href="/orders">구매내역</a>
+  <a href="/messages">쪽지함</a>
+</div>
+
+<div class="panel">
+  <h3 style="font-size:16px;margin-bottom:4px">프로필 수정</h3>
+  <form method="post" action="/account/update">
+    <label>닉네임</label><input type="text" name="nickname" value="{{ me['nickname'] }}">
+    <label>이메일</label><input type="email" name="email" value="{{ me['email'] or '' }}">
+    <label>휴대폰</label><input type="text" name="phone" value="{{ me['phone'] or '' }}">
+    <label>주소</label><input type="text" name="address" value="{{ me['address'] or '' }}">
+    <label>소개</label><input type="text" name="bio" value="{{ me['bio'] or '' }}">
+    <div style="margin-top:16px"><button class="btn" type="submit">저장</button></div>
+  </form>
+</div>
+
+<div class="panel">
+  <h3 style="font-size:16px;margin-bottom:4px">프로필 사진</h3>
+  <p class="sub">이미지 주소를 입력하면 불러옵니다</p>
+  <form method="get" action="/account/avatar/fetch">
+    <label>이미지 URL</label><input type="text" name="url" placeholder="https://...">
+    <div style="margin-top:12px"><button class="btn ghost" type="submit">불러오기</button></div>
+  </form>
+</div>
+
+<div class="panel">
+  <h3 style="font-size:16px;margin-bottom:4px">비밀번호 변경</h3>
+  <form method="post" action="/account/password">
+    <label>새 비밀번호</label><input type="password" name="new_password">
+    <div style="margin-top:12px"><button class="btn" type="submit">변경</button></div>
+  </form>
+</div>
+
+<div class="panel">
+  <h3 style="font-size:16px;margin-bottom:10px">내가 등록한 상품 {{ products|length }}</h3>
+  <div class="grid" style="grid-template-columns:repeat(3,1fr)">
+    {% for p in products %}
+    <a class="card" href="/product/{{ p['id'] }}">
+      <div class="thumb">📦</div>
+      <div class="body"><div class="ttl">{{ p['title'] }}</div><div class="price">{{ "{:,}".format(p['price']) }}원</div></div>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

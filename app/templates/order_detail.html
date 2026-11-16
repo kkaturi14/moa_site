@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}주문 상세 - {{ site_name }}{% endblock %}
+{% block body %}
+<div class="panel" style="margin-top:28px;max-width:560px">
+  <div class="sec-title" style="padding-top:0">주문 #{{ o['id'] }}</div>
+  <table>
+    <tr><th>상품</th><td>{{ o['product_title'] }}</td></tr>
+    <tr><th>결제금액</th><td>{{ "{:,}".format(o['amount']) }}원</td></tr>
+    <tr><th>결제수단</th><td>{{ o['pay_method'] }}</td></tr>
+    <tr><th>카드번호</th><td>**** **** **** {{ o['card_last4'] or '----' }}</td></tr>
+    <tr><th>주문상태</th><td>{{ o['status'] }}</td></tr>
+    <tr><th>주문일시</th><td>{{ o['created_at'] }}</td></tr>
+  </table>
+  <div style="margin-top:16px"><a href="/orders" class="sub">← 구매내역으로</a></div>
+</div>
+{% endblock %}

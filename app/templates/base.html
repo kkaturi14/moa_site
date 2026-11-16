@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{% block title %}{{ site_name }} - 우리동네 중고거래{% endblock %}</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+<header class="topbar">
+  <div class="container inner">
+    <a href="/" class="logo">모아<span>마켓</span></a>
+    <form class="searchbar" action="/search" method="get">
+      <input name="q" placeholder="어떤 물건을 찾으세요?" value="{{ q|default('') }}">
+      <button type="submit">검색</button>
+    </form>
+    <nav class="nav">
+      <a href="/">홈</a>
+      {% if me %}
+        <a href="/messages">쪽지</a>
+        <a href="/orders">구매내역</a>
+        <a href="/account">{{ me['nickname'] }}님</a>
+        {% if me['role'] == 'admin' %}<a href="/admin">관리</a>{% endif %}
+        <a href="/logout">로그아웃</a>
+        <a href="/sell" class="btn">판매하기</a>
+      {% else %}
+        <a href="/login">로그인</a>
+        <a href="/register">회원가입</a>
+        <a href="/sell" class="btn">판매하기</a>
+      {% endif %}
+    </nav>
+  </div>
+</header>
+<main class="container">
+  {% block body %}{% endblock %}
+</main>
+<footer>
+  <div class="container cols">
+    <div>
+      <div class="logo" style="font-size:18px">모아<span>마켓</span></div>
+      <p style="margin-top:8px">우리동네 믿을 수 있는 중고거래</p>
+    </div>
+    <div>
+      <p>고객센터 1588-0000</p>
+      <p>평일 10:00 - 18:00</p>
+    </div>
+    <div>
+      <p>(주)모아마켓 · 대표 김모아</p>
+      <p>서울시 중구 세종대로 110</p>
+      <p>© <span id="year">2024</span> moamarket</p>
+    </div>
+  </div>
+</footer>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

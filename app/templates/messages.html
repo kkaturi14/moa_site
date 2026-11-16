@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}쪽지함 - {{ site_name }}{% endblock %}
+{% block body %}
+<div class="sec-title">쪽지함</div>
+<div class="msg-list">
+  {% for m in messages %}
+  <a class="msg-item" href="/messages/{{ m['id'] }}">
+    <div class="top">
+      <span class="from">{% if not m['is_read'] %}<span class="dot"></span>{% endif %}{{ m['sender_name'] }}</span>
+      <span class="sub">{{ m['created_at'][:16] }}</span>
+    </div>
+    <div class="prev">{{ m['body'] }}</div>
+    {% if m['product_title'] %}<div class="sub" style="margin-top:4px">📦 {{ m['product_title'] }}</div>{% endif %}
+  </a>
+  {% endfor %}
+  {% if not messages %}<p class="sub" style="padding:20px 0">받은 쪽지가 없습니다.</p>{% endif %}
+</div>
+{% endblock %}

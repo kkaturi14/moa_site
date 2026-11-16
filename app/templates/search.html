@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="sec-title">'{{ q|safe }}' 검색 결과</div>
+<div class="sub">{{ products|length }}개의 상품을 찾았어요</div>
+<div class="grid">
+  {% for p in products %}
+  <a class="card" href="/product/{{ p['id'] }}">
+    <div class="thumb">📦</div>
+    <div class="body">
+      <div class="ttl">{{ p['title'] }}</div>
+      <div class="price">{{ "{:,}".format(p['price']) }}원</div>
+      <div class="meta"><span>{{ p['location'] }}</span><span>조회 {{ p['views'] }}</span></div>
+    </div>
+  </a>
+  {% endfor %}
+</div>
+{% if not products %}<p style="padding:30px 0;color:var(--muted)">검색 결과가 없습니다.</p>{% endif %}
+{% endblock %}

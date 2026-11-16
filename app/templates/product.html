@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}{{ p['title'] }} - {{ site_name }}{% endblock %}
+{% block body %}
+<div class="detail">
+  <div class="photo">📦</div>
+  <div>
+    <div class="chips">
+      <span class="chip">{{ p['category'] }}</span>
+      <span class="chip">{{ p['location'] }}</span>
+      <span class="chip">조회 {{ p['views'] }}</span>
+    </div>
+    <h1>{{ p['title'] }}</h1>
+    <div class="price-lg">{{ "{:,}".format(p['price']) }}원</div>
+    <div class="seller-box">
+      <div class="seller-ava">{{ (p['seller'] or '?')[0] }}</div>
+      <div>
+        <div style="font-weight:600">{{ p['seller'] }}</div>
+        <div class="sub">{{ p['seller_loc'] }}</div>
+      </div>
+    </div>
+    <div class="desc">{{ p['description']|safe }}</div>
+    <div class="actions">
+      <form method="post" action="/buy/{{ p['id'] }}" style="flex:1">
+        <input type="hidden" name="pay_method" value="card">
+        <input type="hidden" name="card" value="4000123412341234">
+        <button class="btn lg block" type="submit">바로 구매하기</button>
+      </form>
+      {% if me %}
+      <form method="post" action="/messages/send">
+        <input type="hidden" name="receiver_id" value="{{ p['seller_uid'] }}">
+        <input type="hidden" name="product_id" value="{{ p['id'] }}">
+        <input type="hidden" name="body" value="상품 문의드립니다. 아직 판매하시나요?">
+        <button class="btn ghost lg" type="submit">쪽지 문의</button>
+      </form>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<div class="reviews">
+  <div class="sec-title">거래 후기 {{ reviews|length }}</div>
+  {% for r in reviews %}
+  <div class="review">
+    <div class="who">{{ r['author_name']|safe }} <span class="stars">{{ '★' * (r['rating']|int) }}</span></div>
+    <div class="txt">{{ r['content']|safe }}</div>
+  </div>
+  {% endfor %}
+  <form class="review-form" method="post" action="/product/{{ p['id'] }}/review">
+    {% if not me %}<label>닉네임</label><input type="text" name="name" placeholder="닉네임">{% endif %}
+    <label>평점</label>
+    <select name="rating"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select>
+    <label>후기 내용</label>
+    <textarea name="content" rows="3" placeholder="거래 경험을 남겨주세요"></textarea>
+    <div style="margin-top:12px"><button class="btn" type="submit">후기 등록</button></div>
+  </form>
+</div>
+{% endblock %}

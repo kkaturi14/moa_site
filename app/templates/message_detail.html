@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}쪽지 - {{ site_name }}{% endblock %}
+{% block body %}
+<div class="panel" style="margin-top:28px">
+  <div style="display:flex;justify-content:space-between;align-items:center">
+    <div><span style="font-weight:700">{{ m['sender_name']|safe }}</span> 님의 쪽지</div>
+    <span class="sub">{{ m['created_at'][:16] }}</span>
+  </div>
+  {% if m['product_title'] %}<div class="sub" style="margin:8px 0">관련 상품: {{ m['product_title'] }}</div>{% endif %}
+  <hr style="border:0;border-top:1px solid var(--line);margin:14px 0">
+  <div style="font-size:15px;line-height:1.7">{{ m['body']|safe }}</div>
+  <div style="margin-top:20px">
+    <form method="post" action="/messages/send">
+      <input type="hidden" name="receiver_id" value="{{ m['sender_id'] }}">
+      <input type="hidden" name="product_id" value="{{ m['product_id'] or '' }}">
+      <label>답장</label><textarea name="body" rows="3"></textarea>
+      <div style="margin-top:10px"><button class="btn" type="submit">답장 보내기</button></div>
+    </form>
+  </div>
+  <div style="margin-top:14px"><a href="/messages" class="sub">← 쪽지함으로</a></div>
+</div>
+{% endblock %}
